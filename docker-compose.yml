@@ -1,0 +1,10 @@
+version: "3.12"
+
+services:
+  clonenames:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
