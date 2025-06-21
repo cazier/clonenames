@@ -1,0 +1,18 @@
+name: CI/CD
+on:
+  push:
+  pull_request:
+
+jobs:
+  linters:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv python install
+      - run: uv sync --all-extras --dev
+      - run: uv run ruff check --select I --output-format=github clonenames
+      - run: uv run ruff check --output-format=github clonenames
+      - run: uv run ruff format --diff clonenames
+      - run: uv run mypy clonenames
