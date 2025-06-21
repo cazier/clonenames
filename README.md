@@ -10,7 +10,7 @@ Unlike the original game, Clonenames allows up to 4 teams, and game boards with 
 * Cards Against Humanity
 * Gen. 1 Pokemon
 * PYTHON3 BUILTINS!!!
- 
+
 And it's very easy to add any other word lists. They're just new-line delineated files.
 
 [![](screenshot.png)](#)
@@ -18,9 +18,9 @@ And it's very easy to add any other word lists. They're just new-line delineated
 ## Getting Started
 ### Prerequisites/Required Libraries
 ```
-flask==1.0.2
-flask-socketio==3.2.1
-eventlet==0.24.1
+flask>=3.1.1
+flask-socketio>=5.5.1
+eventlet>=0.40.0
 ```
 
 Clone or download this repository, and install the dependencies.
@@ -28,19 +28,15 @@ Clone or download this repository, and install the dependencies.
 git clone https://github.com/cazier/clonenames.git
 cd clonenames
 ```
-If you have/use pipenv, install the dependencies, then start a shell:
+You can start it directly using uv with:
 ```
-pipenv install
-pipenv shell
+$ uv run python clonenames/web.py
 ```
-Or if you don't:
+Or create and activate a virtual environment with:
 ```
-pip install -r requirements.txt
-```
-
-Then run it with:
-```
-python web.py
+$ uv venv
+$ source venv/bin/activate
+(venv) $ python web.py
 ```
 ### Play!
 Open a web browser to [127.0.0.1:5000](127.0.0.1:5000) and you can start a game!
