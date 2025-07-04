@@ -34,6 +34,7 @@ class Card:
         self.shown = True
         return self
 
+
 class Board:
     """docstring for Board"""
 
