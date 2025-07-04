@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-toml
+      - id: check-added-large-files
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.0
+    hooks:
+      - id: ruff-check
+        name: check
+      - id: ruff-check
+        name: imports
+        args: [--select=I]
+      - id: ruff-format
+        types: [file]
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: python
+        types: [python]
+        args: [--strict]

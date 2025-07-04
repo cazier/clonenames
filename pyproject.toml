@@ -21,5 +21,19 @@ build-backend = "setuptools.build_meta"
 [dependency-groups]
 dev = [
     "mypy>=1.16.1",
+    "pre-commit>=4.2.0",
     "ruff>=0.12.0",
 ]
+
+# BUILDING
+[tool.setuptools]
+packages = ["clonenames"]
+
+# FORMATTING
+[tool.ruff]
+line-length = 120
+
+# LINTING
+[tool.mypy]
+strict = true
+explicit_package_bases = true
