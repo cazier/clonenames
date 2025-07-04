@@ -39,7 +39,7 @@
                         <label for="wordlist">Words List:</label>
                         <select name="words">
                             {%- for option in words.keys() %}
-                                <option value="{{ words[option] }}">{{ option }}</option>
+                                <option value="{{ option }}">{{ option }}</option>
                             {%- endfor %}
                         </select>
                         <small class="form-text text-muted">If choosing builtins, your maximum board size is 64.</small>

@@ -1,3 +1,3 @@
-from .clonenames import load_wordlists, Board, Card
+from .clonenames import Board, Card, load_wordlists
 
-__ALL__ = ["load_wordlists", "Board", "Card"]
+__all__ = ["load_wordlists", "Board", "Card"]
