@@ -23,11 +23,8 @@ dev = [
     "mypy>=1.16.1",
     "pre-commit>=4.2.0",
     "ruff>=0.12.0",
+    "types-flask-socketio>=5.5.0.20250516",
 ]
-
-# # BUILDING
-# [tool.setuptools]
-# packages = ["clonenames"]
 
 # FORMATTING
 [tool.ruff]
