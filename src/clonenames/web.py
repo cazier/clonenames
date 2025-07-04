@@ -152,5 +152,5 @@ def check_room_code(code):
     return code in games.keys()
 
 
-if __name__ == "__main__":
+def run():
     socketio.run(app, debug=False, host="0.0.0.0")
