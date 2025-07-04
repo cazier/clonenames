@@ -25,77 +25,80 @@ socketio = SocketIO(app)
 games = dict()
 
 
-@app.route(u'/')
+@app.route("/")
 def home_page():
-    return render_template(u'index.html')
+    return render_template("index.html")
 
 
-@app.route(u'/start', methods = [u'GET', u'POST'])
+@app.route("/start", methods=["GET", "POST"])
 def start_page():
-    if request.method == u'POST':
-        game = clonenames.Board(request.form.get(u'words'))
+    if request.method == "POST":
+        game = clonenames.Board(request.form.get("words"))
 
         success = game.load_settings(
-            teams = int(request.form.get(u'number')),
-            size = int(request.form.get(u'size')))
+            teams=int(request.form.get("number")), size=int(request.form.get("size"))
+        )
 
         if success:
             room = generate_room_code()
 
             games[room] = game
 
-            return redirect(url_for(u'game_page', room = room))
+            return redirect(url_for("game_page", room=room))
 
         else:
             return render_template(
-                u'start.html',
-                words = clonenames.wordlists,
-                alert = u'The word list selected must be played on a smaller game board... Sorry!')
+                "start.html",
+                words=clonenames.wordlists,
+                alert="The word list selected must be played on a smaller game board... Sorry!",
+            )
 
-    elif request.method == u'GET':
-        return render_template(u'start.html', words = wordlists)
+    elif request.method == "GET":
+        return render_template("start.html", words=wordlists)
 
 
-@app.route(u'/game', methods = [u'GET', u'POST'])
+@app.route("/game", methods=["GET", "POST"])
 def game_page():
-    if request.args.get(u'room'):
-        room = request.args.get(u'room')
+    if request.args.get("room"):
+        room = request.args.get("room")
         return render_template(
-            u'game.html',
-            show_input = False,
-            room = room,
-            host = True,
-            words = games[room].table(),
-            start = games[room].order[0],
-            remnants = games[room].remnants)
+            "game.html",
+            show_input=False,
+            room=room,
+            host=True,
+            words=games[room].table(),
+            start=games[room].order[0],
+            remnants=games[room].remnants,
+        )
 
     else:
         try:
-            if request.method == u'GET':
-                return render_template(
-                    u'game.html',
-                    show_input = True)
+            if request.method == "GET":
+                return render_template("game.html", show_input=True)
 
-            elif request.method == u'POST':
-                room = request.form.get(u'room', False).upper()
+            elif request.method == "POST":
+                room = request.form.get("room", False).upper()
                 if check_room_code(room):
                     return render_template(
-                        u'game.html',
-                        show_input = False,
-                        room = room,
-                        host = request.form.get(u'host', False) == u'on',
-                        words = games[room].table(),
-                        start = games[room].order[0],
-                        remnants = games[room].remnants)
+                        "game.html",
+                        show_input=False,
+                        room=room,
+                        host=request.form.get("host", False) == "on",
+                        words=games[room].table(),
+                        start=games[room].order[0],
+                        remnants=games[room].remnants,
+                    )
 
                 else:
                     return render_template(
-                        u'game.html',
-                        show_input = True,
-                        alert = u'The room code you entered does not exist. Please try again!')
+                        "game.html",
+                        show_input=True,
+                        alert="The room code you entered does not exist. Please try again!",
+                    )
 
         except AttributeError:
-            return redirect(url_for(u'home_page'))
+            return redirect(url_for("home_page"))
+
 
 # @app.route(u'/statistics')
 # def stats_page():
@@ -103,38 +106,42 @@ def game_page():
 #         rooms = [games[game].statistics() for game in games])
 
 
-@socketio.on(u'join')
+@socketio.on("join")
 def join(data):
-    join_room(data[u'room'])
+    join_room(data["room"])
 
 
-@socketio.on(u'clicked')
+@socketio.on("clicked")
 def handle_host_click(json):
-    response = games[json[u'room']].get(json[u'id'])
-    socketio.emit(u'revealed', {
-        u'text': u'Host clicked on {word}'.format(
-            word = response[u'word']),
-        u'id': u'#{id}'.format(id = json[u'id']),
-        u'remnant': response[u'remnant'],
-        u'class': u'btn-{team}'.format(
-            team = response[u'team'])}, room = json['room'])
+    response = games[json["room"]].get(json["id"])
+    socketio.emit(
+        "revealed",
+        {
+            "text": "Host clicked on {word}".format(word=response["word"]),
+            "id": "#{id}".format(id=json["id"]),
+            "remnant": response["remnant"],
+            "class": "btn-{team}".format(team=response["team"]),
+        },
+        room=json["room"],
+    )
 
 
-@socketio.on(u'ended_turn')
+@socketio.on("ended_turn")
 def handle_end_turn(json):
-    team = games[json[u'room']].advance_turn()
+    team = games[json["room"]].advance_turn()
 
-    alert = u'alert {team}-start alert-start'.format(team = team)
-    button = u'btn btn-{team} float-right'.format(team = team)
+    alert = "alert {team}-start alert-start".format(team=team)
+    button = "btn btn-{team} float-right".format(team=team)
 
-    socketio.emit(u'change_turn', {
-        u'alert': alert,
-        u'text': team,
-        u'button': button}, room = json[u'room'])
+    socketio.emit(
+        "change_turn",
+        {"alert": alert, "text": team, "button": button},
+        room=json["room"],
+    )
 
 
 def generate_room_code():
-    letters = u''.join(random.sample(list(u'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 5))
+    letters = "".join(random.sample(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 5))
     while letters in games.keys():
         return generate_room_code()
 
@@ -146,4 +153,4 @@ def check_room_code(code):
 
 
 def run():
-    socketio.run(app, debug=True, host=u'0.0.0.0', port=12345)
+    socketio.run(app, debug=False, host="0.0.0.0")

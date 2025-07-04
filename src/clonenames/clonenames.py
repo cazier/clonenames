@@ -51,8 +51,8 @@ class Board(object):
         self.length = int(self.size ** 0.5)
 
     def load_words(self) -> None:
-        from time import clock
-        random.seed(clock())
+        from time import perf_counter
+        random.seed(perf_counter())
 
         self.COLORS = [u'red', u'blue', u'green', u'yellow']
         random.shuffle(self.COLORS)
