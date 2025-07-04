@@ -12,7 +12,7 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - run: uv python install
       - run: uv sync --all-extras --dev
-      - run: uv run ruff check --select I --output-format=github clonenames
-      - run: uv run ruff check --output-format=github clonenames
-      - run: uv run ruff format --diff clonenames
-      - run: uv run mypy clonenames
+      - run: uv run ruff check --select I --output-format=github src/clonenames
+      - run: uv run ruff check --output-format=github src/clonenames
+      - run: uv run ruff format --diff src/clonenames
+      - run: uv run mypy src/clonenames
