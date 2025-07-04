@@ -15,4 +15,4 @@ jobs:
       - run: uv run ruff check --select I --output-format=github src/clonenames
       - run: uv run ruff check --output-format=github src/clonenames
       - run: uv run ruff format --diff src/clonenames
-      - run: uv run mypy src/clonenames
+      - run: uv run mypy -p clonenames

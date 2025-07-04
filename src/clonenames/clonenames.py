@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import dataclasses
+import importlib.resources.abc
 import pathlib
 import random
 import time
 import typing
 
 
-def load_wordlists(*path: pathlib.Path) -> typing.Iterable[tuple[str, list[str]]]:
+def load_wordlists(*path: pathlib.Path | importlib.resources.abc.Traversable) -> typing.Iterable[tuple[str, list[str]]]:
     for _path in path:
         if not _path.is_file():
             continue
