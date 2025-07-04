@@ -11,12 +11,12 @@ dependencies = [
     "jinja2>=3.1.6",
 ]
 
+[project.scripts]
+clonenames = "clonenames.web:run"
+
 [build-system]
 requires = ["setuptools>=64", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["clonenames", "clonenames.wordlists"]
 
 [dependency-groups]
 dev = [

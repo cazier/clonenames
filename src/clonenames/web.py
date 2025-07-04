@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import importlib.resources
 import sys
 
 if sys.version_info[0] < 3:
@@ -14,6 +15,9 @@ from flask_socketio import SocketIO, join_room
 import random
 
 import clonenames
+import clonenames.wordlists
+
+wordlists = dict(clonenames.load_wordlists(*importlib.resources.files(clonenames.wordlists).iterdir()))
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -49,7 +53,7 @@ def start_page():
                 alert = u'The word list selected must be played on a smaller game board... Sorry!')
 
     elif request.method == u'GET':
-        return render_template(u'start.html', words = clonenames.wordlists)
+        return render_template(u'start.html', words = wordlists)
 
 
 @app.route(u'/game', methods = [u'GET', u'POST'])
@@ -141,5 +145,5 @@ def check_room_code(code):
     return code in games.keys()
 
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True, host=u'0.0.0.0')
+def run():
+    socketio.run(app, debug=True, host=u'0.0.0.0', port=12345)
