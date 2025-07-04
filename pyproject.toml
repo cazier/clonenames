@@ -1,0 +1,25 @@
+[project]
+name = "clonenames"
+version = "1.0.0"
+description = "Clonenames is a clone of the game Codenames written in Python using Flask and Socket.IO."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "eventlet>=0.40.0",
+    "flask>=3.1.1",
+    "flask-socketio>=5.5.1",
+    "jinja2>=3.1.6",
+]
+
+[project.scripts]
+clonenames = "clonenames.web:run"
+
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.1",
+    "ruff>=0.12.0",
+]

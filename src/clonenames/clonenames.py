@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import pathlib
 import random
+import typing
 
-wordlists = {
-    u'Codenames': u'codenames',
-    u'Cards Against Humanity': u'cardsagainsthumanity',
-    u'Pokemon (Generation 1)': u'pokemon_gen1',
-    u'__builtins__': u'builtin_functions'}
+def load_wordlists(*path: pathlib.Path) -> typing.Iterable[tuple[str, list[str]]]:
+    for _path in path:
+        if not _path.is_file():
+            continue
+        
+        text = _path.read_text(encoding='utf8')
+        name, *words = [line for line in text.splitlines() if line]
+        yield name, words
 
 
 class Board(object):
     """docstring for Board"""
-    def __init__(self, wordlist: str = u'codenames') -> None:
-        # self.wordlist = wordlist
-        with open(u'wordlists/{wordlist}'.format(wordlist = wordlist), u'r') as text_file:
-            self.source = [line for line in text_file.read().split(u'\n') if line != u'']
+    def __init__(self, source: list[str]) -> None:
+        self.source = source
 
     def load_settings(self, teams: int = 2, size: int = 25) -> bool:
         self.check_size(size)
